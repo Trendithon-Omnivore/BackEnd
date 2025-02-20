@@ -1,13 +1,16 @@
 package com.likelion.trendithon.domain.card;
 
-import com.likelion.trendithon.domain.tag.Tag;
+import java.util.*;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.util.*;
+
+import com.likelion.trendithon.domain.tag.Tag;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +29,6 @@ public class Card {
 
   private String imgUrl;
 
-  @OneToMany(mappedBy = "Tag", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "card", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Tag> TagItems = new ArrayList<>();
 }

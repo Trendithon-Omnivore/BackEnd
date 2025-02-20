@@ -1,10 +1,13 @@
 package com.likelion.trendithon.domain.tag;
 
-import com.likelion.trendithon.domain.card.Card;
 import java.util.List;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
+
+import com.likelion.trendithon.domain.card.Card;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -12,11 +15,11 @@ public class TagService {
 
   private TagRepository tagRepository;
 
-  public void createTag(List<Tag> tags){
+  public void createTag(List<Tag> tags) {
     tagRepository.saveAll(tags);
   }
 
-  public List<Tag> getTags(Card card){
+  public List<Tag> getTags(Card card) {
     return tagRepository.findByCard(card);
   }
 
@@ -25,7 +28,7 @@ public class TagService {
     List<Tag> tags = tagRepository.findByCard(card);
     List<Tag> newTags = card.getTagItems();
 
-    // tags¿£ Á¸ÀçÇÏ´Âµ¥ newTags¿¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é »èÁ¦ °°À¸¸é ¾÷µ«
+    // tagsì—” ì¡´ì¬í•˜ëŠ”ë° newTagsì— ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ì‚­ì œ ê°™ìœ¼ë©´ ì—…ëƒ
     for (Tag tag : tags) {
       for (Tag newTag : newTags) {
         if (Objects.equals(tag.getTagId(), newTag.getTagId())) {
@@ -39,9 +42,9 @@ public class TagService {
       tagRepository.delete(tag);
     }
 
-    // newTags¿£ Á¸ÀçÇÏ´Âµ¥ tags¿£ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é Ãß°¡
+    // newTagsì—” ì¡´ì¬í•˜ëŠ”ë° tagsì—” ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ ì¶”ê°€
     for (Tag newTag : newTags) {
-      for (Tag tag : tags){
+      for (Tag tag : tags) {
         if (Objects.equals(tag.getTagId(), newTag.getTagId())) break;
       }
 

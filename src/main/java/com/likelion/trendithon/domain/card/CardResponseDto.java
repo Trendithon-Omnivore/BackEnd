@@ -14,5 +14,4 @@ public class CardResponseDto {
     this.cardId = id;
     this.title = title;
   }
-
 }

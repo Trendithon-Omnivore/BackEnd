@@ -1,7 +1,7 @@
 package com.likelion.trendithon.domain.card;
 
 import java.util.*;
-import lombok.AllArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
@@ -25,14 +27,14 @@ public class CardController {
       Card result = cardService.createCard(card);
 
       Map<String, Object> response = new HashMap<>();
-      response.put("message", "Card »ı¼º ¼º°ø");
+      response.put("message", "Card ìƒì„± ì„±ê³µ");
       response.put("card", result);
 
       return ResponseEntity.status(HttpStatus.CREATED).body(response);
     } catch (Exception e) {
 
       Map<String, Object> errorResponse = new HashMap<>();
-      errorResponse.put("message", "Error ¹ß»ı");
+      errorResponse.put("message", "Error ë°œìƒ");
       errorResponse.put("error", e.getMessage());
 
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
@@ -44,11 +46,11 @@ public class CardController {
     try {
       Card card = cardService.getCardById(id);
       if (card == null) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ÇØ´ç Card°¡ Á¸ÀçÇÏÁö ¾ÊÀ½");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("í•´ë‹¹ Cardê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
       }
       return ResponseEntity.ok(card);
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error ¹ß»ı");
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error ë°œìƒ");
     }
   }
 
@@ -57,11 +59,11 @@ public class CardController {
     try {
       List<CardResponseDto> cards = cardService.getAllCards();
       if (cards.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Ä«µå°¡ Á¸ÀçÇÏÁö ¾ÊÀ½");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ì¹´ë“œê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
       }
       return ResponseEntity.ok(cards);
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error ¹ß»ı");
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error ë°œìƒ");
     }
   }
 
@@ -70,7 +72,7 @@ public class CardController {
     cardService.deleteCard(id);
 
     Map<String, String> response = new HashMap<>();
-    response.put("message", "Card »èÁ¦ ¿Ï·á");
+    response.put("message", "Card ì‚­ì œ ì™„ë£Œ");
 
     return ResponseEntity.ok(response);
   }
@@ -80,13 +82,9 @@ public class CardController {
     Card newCard = cardService.updateCard(id, updatedCard);
 
     if (newCard == null) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ä«µå°¡ Á¸ÀçÇÏÁö ¾ÊÀ½");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ì¹´ë“œê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
     } else {
       return ResponseEntity.ok(newCard);
     }
   }
-
-
-
-
 }

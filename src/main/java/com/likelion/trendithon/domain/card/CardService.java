@@ -1,12 +1,15 @@
 package com.likelion.trendithon.domain.card;
 
-import com.likelion.trendithon.domain.tag.Tag;
-import com.likelion.trendithon.domain.tag.TagService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
+
+import com.likelion.trendithon.domain.tag.Tag;
+import com.likelion.trendithon.domain.tag.TagService;
+
+import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
@@ -16,16 +19,16 @@ public class CardService {
   private TagService tagService;
 
   public Card createCard(Card card) {
-    List<Tag> tags= card.getTagItems();
+    List<Tag> tags = card.getTagItems();
     tagService.createTag(tags);
     return cardRepository.save(card);
   }
 
   public Card getCardById(Long id) {
-    Optional<Card> optionalCard= cardRepository.findById(id);
+    Optional<Card> optionalCard = cardRepository.findById(id);
     Card card;
-    if(optionalCard.isPresent()) {
-      card= optionalCard.get();
+    if (optionalCard.isPresent()) {
+      card = optionalCard.get();
       card.setTagItems(tagService.getTags(card));
       return card;
     }
@@ -34,7 +37,7 @@ public class CardService {
   }
 
   public List<CardResponseDto> getAllCards() {
-    List<Card> cardList= cardRepository.findAll();
+    List<Card> cardList = cardRepository.findAll();
     List<CardResponseDto> cardDtos = new ArrayList<>();
 
     for (Card card : cardList) {
@@ -42,20 +45,19 @@ public class CardService {
     }
 
     return cardDtos;
-
   }
 
   public void deleteCard(Long id) {
-    Optional<Card> optionalCard= cardRepository.findById(id);
+    Optional<Card> optionalCard = cardRepository.findById(id);
     optionalCard.ifPresent(card -> cardRepository.delete(card));
   }
 
   public Card updateCard(Long id, Card updatedCard) {
-    Optional<Card> optionalCard= cardRepository.findById(id);
+    Optional<Card> optionalCard = cardRepository.findById(id);
     Card newCard;
-    if(optionalCard.isPresent()){
-      newCard= optionalCard.get();
-      List<Tag> newTags= tagService.updateTags(newCard);
+    if (optionalCard.isPresent()) {
+      newCard = optionalCard.get();
+      List<Tag> newTags = tagService.updateTags(newCard);
 
       newCard.setTagItems(newTags);
       newCard.setContent(updatedCard.getContent());
@@ -63,8 +65,6 @@ public class CardService {
       newCard.setImgUrl(updatedCard.getImgUrl());
 
       return cardRepository.save(newCard);
-    }
-
-    else return null;
+    } else return null;
   }
 }

@@ -1,13 +1,16 @@
-package com.likelion.trendithon.domain.tag;
+package com.likelion.trendithon.domain.tag.Service;
 
+import com.likelion.trendithon.domain.tag.entity.Tag;
+import com.likelion.trendithon.domain.tag.repository.TagRepository;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 
-import com.likelion.trendithon.domain.card.Card;
+import com.likelion.trendithon.domain.card.entity.Card;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -15,14 +18,19 @@ public class TagService {
 
   private TagRepository tagRepository;
 
+  @Transactional
   public void createTag(List<Tag> tags) {
+
     tagRepository.saveAll(tags);
   }
 
+  @Transactional
   public List<Tag> getTags(Card card) {
+
     return tagRepository.findByCard(card);
   }
 
+  @Transactional
   public List<Tag> updateTags(Card card) {
 
     List<Tag> tags = tagRepository.findByCard(card);

@@ -1,4 +1,4 @@
-package com.likelion.trendithon.domain.card.dto;
+package com.likelion.trendithon.domain.card.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -19,5 +19,4 @@ public class CardListSummaryDto {
 
   @Schema(description = "카드 제목", example = "멋쟁이사자 되기")
   private String title;
-
 }

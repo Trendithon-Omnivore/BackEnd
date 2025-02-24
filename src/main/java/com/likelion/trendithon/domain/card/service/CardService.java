@@ -142,7 +142,7 @@ public class CardService {
               .build());
     }
   }
-  
+
   @Transactional
   public ResponseEntity<CardListResponse> getAllCards() {
     try {

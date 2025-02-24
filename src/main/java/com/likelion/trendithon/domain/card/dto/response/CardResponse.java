@@ -1,5 +1,7 @@
 package com.likelion.trendithon.domain.card.dto.response;
 
+import com.likelion.trendithon.domain.card.entity.Card;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

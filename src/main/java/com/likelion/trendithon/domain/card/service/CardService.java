@@ -142,8 +142,7 @@ public class CardService {
               .build());
     }
   }
-
-  // 전체 카드 조회
+  
   @Transactional
   public ResponseEntity<CardListResponse> getAllCards() {
     try {

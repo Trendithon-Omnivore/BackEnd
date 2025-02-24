@@ -28,11 +28,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class UserCard {
+public class Experience {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long userCardId;
+  private Long experienceId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "login_id", nullable = false)
@@ -43,6 +43,9 @@ public class UserCard {
   @JoinColumn(name = "card_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Card card;
+
+  @Column(name = "state", nullable = false)
+  private boolean state;
 
   @Column(name = "cover", nullable = false)
   private String cover;

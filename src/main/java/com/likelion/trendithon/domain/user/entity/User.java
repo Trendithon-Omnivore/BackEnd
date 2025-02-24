@@ -37,7 +37,7 @@ public class User extends BaseTimeEntity {
   @Column(name = "nickname", nullable = false, unique = true)
   private String nickname;
 
-  @Column(name = "state", nullable = false)
+  @Column(name = "state")
   private Boolean state;
 
   @Column(name = "refresh_token")

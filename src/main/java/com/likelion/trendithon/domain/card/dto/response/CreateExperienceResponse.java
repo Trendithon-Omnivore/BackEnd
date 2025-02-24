@@ -11,7 +11,7 @@ public class CreateExperienceResponse {
   @Schema(description = "카드 생성 결과", example = "true")
   private boolean success;
 
-  @Schema(description = "응답 메세지", example = "카드 생성에 성공하였습니다.")
+  @Schema(description = "응답 메세지", example = "경험 생성에 성공하였습니다.")
   private String message;
 
   @Schema(description = "카드 ID", example = "1")

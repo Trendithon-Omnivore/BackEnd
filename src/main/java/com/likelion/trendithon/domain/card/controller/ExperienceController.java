@@ -27,7 +27,7 @@ public class ExperienceController {
 
   private ExperienceService experienceService;
 
-  @Operation(summary = "[ 토큰 O | 카드 경험 ]", description = "다른 사용자가 생성한 카드 경험 등록")
+  @Operation(summary = "[ 토큰 O | 경험 등록 ]", description = "다른 사용자가 생성한 카드 경험 등록")
   @PostMapping("/experience")
   public ResponseEntity<?> createExperience(
       @Parameter(description = "경험할 카드 ID") Long cardId,
@@ -37,13 +37,13 @@ public class ExperienceController {
     return experienceService.createExperience(cardId, createExperienceRequest, httpServletRequest);
   }
 
-  @Operation(summary = "[ 토큰 O | 사용자 경험 조회 ]", description = "사용자가 현재 도전 중인 경험 조회")
+  @Operation(summary = "[ 토큰 O | 경험 조회 ]", description = "사용자가 현재 도전 중인 경험 조회")
   @GetMapping("/experience")
   public ResponseEntity<?> getEnableExperience(HttpServletRequest httpServletRequest) {
     return experienceService.getEnableExperience(httpServletRequest);
   }
 
-  @Operation(summary = "[ 토큰 O | 사용자 경험 수정 ]", description = "사용자가 현재 도전 중인 경험 종료일 변경")
+  @Operation(summary = "[ 토큰 O | 경험 수정 ]", description = "사용자가 현재 도전 중인 경험 종료일 변경")
   @PutMapping("/experience")
   public ResponseEntity<?> updateExperience(
       @Parameter(description = "경험 종료일") @RequestBody
@@ -52,7 +52,7 @@ public class ExperienceController {
     return experienceService.updateExperience(updateExperienceRequest, httpServletRequest);
   }
 
-  @Operation(summary = "[ 토큰 O | 사용자 경험 포기 ]", description = "사용자가 현재 도전 중인 경험 포기")
+  @Operation(summary = "[ 토큰 O | 경험 포기 ]", description = "사용자가 현재 도전 중인 경험 포기")
   @PutMapping("/experience/quit")
   public ResponseEntity<?> quitExperience(HttpServletRequest httpServletRequest) {
     return experienceService.quitExperience(httpServletRequest);

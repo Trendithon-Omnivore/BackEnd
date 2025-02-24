@@ -46,6 +46,15 @@ public class ExperienceService {
               .findByLoginId(loginId)
               .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
+      if (user.getState()) {
+        log.error("[POST /api/cards/create] 경험 생성 실패 - 도전 중인 경험이 이미 존재합니다.");
+        return ResponseEntity.ok(
+            CreateExperienceResponse.builder()
+                .success(false)
+                .message("해당 사용자가 도전 중인 경험이 존재합니다.")
+                .build());
+      }
+
       Card card =
           cardRepository
               .findById(cardId)
@@ -106,7 +115,10 @@ public class ExperienceService {
           ExperienceResponse.builder()
               .success(true)
               .message("경험 조회에 성공하였습니다.")
-              .experienceId(experience.getExperienceId())
+              .state(experience.isState())
+              .cover(experience.getCover())
+              .startDate(experience.getStartDate())
+              .endDate(experience.getEndDate())
               .build());
     } catch (IllegalArgumentException e) {
       log.error("[GET /api/cards/experience] 특정 경험 조회 실패");
@@ -143,7 +155,10 @@ public class ExperienceService {
           ExperienceResponse.builder()
               .success(true)
               .message("경험 수정에 성공하였습니다.")
-              .experienceId(experience.getExperienceId())
+              .state(experience.isState())
+              .cover(experience.getCover())
+              .startDate(experience.getStartDate())
+              .endDate(experience.getEndDate())
               .build());
     } catch (IllegalArgumentException e) {
       log.error("[PUT /api/cards/experience] 특정 경험 수정 실패");
@@ -179,14 +194,17 @@ public class ExperienceService {
           ExperienceResponse.builder()
               .success(true)
               .message("경험 수정에 성공하였습니다.")
-              .experienceId(experience.getExperienceId())
+              .state(experience.isState())
+              .cover(experience.getCover())
+              .startDate(experience.getStartDate())
+              .endDate(experience.getEndDate())
               .build());
     } catch (IllegalArgumentException e) {
-      log.error("[PUT /api/cards/experience] 특정 경험 수정 실패");
+      log.error("[PUT /api/cards/experience/quit] 특정 경험 수정 실패");
       return ResponseEntity.ok(
           ExperienceResponse.builder().success(false).message(e.getMessage()).build());
     } catch (Exception e) {
-      log.error("[PUT /api/cards/experience] 특정 경험 수정 실패 - 에러: {}", e.getMessage());
+      log.error("[PUT /api/cards/experience/quit] 특정 경험 수정 실패 - 에러: {}", e.getMessage());
       return ResponseEntity.ok(
           ExperienceResponse.builder().success(false).message("경험 수정 중 오류가 발생하였습니다.").build());
     }

@@ -8,6 +8,9 @@ import lombok.Getter;
 @Getter
 public class CreateExperienceRequest {
 
+  @Schema(description = "카드 아이디", example = "1")
+  private Long cardId;
+
   @Schema(description = "카드 표지", example = "#000000")
   private String cover;
 

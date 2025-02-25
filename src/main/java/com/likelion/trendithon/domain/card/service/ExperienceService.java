@@ -34,7 +34,6 @@ public class ExperienceService {
   // 경험 생성
   @Transactional
   public ResponseEntity<CreateExperienceResponse> createExperience(
-      Long cardId,
       CreateExperienceRequest createExperienceRequest,
       HttpServletRequest httpServletRequest) {
 
@@ -57,7 +56,7 @@ public class ExperienceService {
 
       Card card =
           cardRepository
-              .findById(cardId)
+              .findById(createExperienceRequest.getCardId())
               .orElseThrow(() -> new IllegalArgumentException("카드를 찾을 수 없습니다."));
 
       Experience experience =
@@ -76,7 +75,7 @@ public class ExperienceService {
       userRepository.save(user);
 
       log.info(
-          "[POST /api/cards/] 경험 생성 성공 - 생성한 사용자 ID: {}, 카드 ID: {}, 경험 ID: {}",
+          "[POST /api/cards/experience] 경험 생성 성공 - 생성한 사용자 ID: {}, 카드 ID: {}, 경험 ID: {}",
           user.getLoginId(),
           card.getCardId(),
           experience.getExperienceId());
@@ -88,7 +87,7 @@ public class ExperienceService {
               .experienceId(experience.getExperienceId())
               .build());
     } catch (Exception e) {
-      log.error("[POST /api/cards/create] 경험 생성 실패 - 에러: {}", e.getMessage());
+      log.error("[POST /api/cards/experience] 경험 생성 실패 - 에러: {}", e.getMessage());
       return ResponseEntity.ok(
           CreateExperienceResponse.builder().success(false).message("경험 생성에 실패하였습니다.").build());
     }

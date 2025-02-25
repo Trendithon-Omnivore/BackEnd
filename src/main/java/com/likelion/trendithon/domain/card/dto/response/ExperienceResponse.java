@@ -16,6 +16,9 @@ public class ExperienceResponse {
   @Schema(description = "응답 메세지", example = "경험 조회에 성공하였습니다.")
   private String message;
 
+  @Schema(description = "경험 제목", example = "멋쟁이사자 되기")
+  private String title;
+
   @Schema(description = "경험 상태", example = "true")
   private boolean state;
 

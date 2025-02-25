@@ -1,6 +1,9 @@
 package com.likelion.trendithon.domain.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +33,7 @@ public class UserController {
   @PostMapping("/register")
   public ResponseEntity<?> register(
       @Parameter(description = "회원가입 정보") @RequestBody SignUpRequest signUpRequest) {
-    String nickname = NicknameGenerator.generateNickname();
-
-    return userService.register(signUpRequest, nickname);
+    return userService.register(signUpRequest);
   }
 
   @Operation(summary = "[ 토큰 X | 랜덤 닉네임 생성 ]", description = "랜덤 닉네임 생성")
@@ -53,5 +54,13 @@ public class UserController {
   public ResponseEntity<DuplicateCheckResponse> checkLoginIdDuplicate(
       @Parameter(description = "중복 검사할 아이디") @RequestBody DuplicateCheckRequest request) {
     return userService.checkLoginIdDuplicate(request);
+  }
+
+  @Operation(
+      summary = "[ 토큰 O | 사용자 상태 조회 ]",
+      description = "사용자가 경험을 등록했는지, 경험 중인지, 아무것도 안 했는지 조회")
+  @GetMapping("/state")
+  public ResponseEntity<?> getCardById(HttpServletRequest httpServletRequest) {
+    return userService.getUserState(httpServletRequest);
   }
 }

@@ -44,6 +44,9 @@ public class Experience {
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Card card;
 
+  @Column(name = "title", nullable = false)
+  private String title;
+
   @Column(name = "state", nullable = false)
   private boolean state;
 

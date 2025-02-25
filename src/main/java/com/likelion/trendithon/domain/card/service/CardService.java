@@ -93,7 +93,10 @@ public class CardService {
           CardResponse.builder()
               .success(true)
               .message("카드 조회에 성공하였습니다.")
-              .cardId(card.getCardId())
+              .emoji(card.getEmoji())
+              .title(card.getTitle())
+              .content(card.getContent())
+              .cover(card.getCover())
               .build());
     } catch (IllegalArgumentException e) {
       log.error("[GET /api/cards/{}] 특정 카드 조회 실패", id);
@@ -142,7 +145,7 @@ public class CardService {
               .build());
     }
   }
-  
+
   @Transactional
   public ResponseEntity<CardListResponse> getAllCards() {
     try {
@@ -171,6 +174,7 @@ public class CardService {
           cardRepository
               .findById(id)
               .orElseThrow(() -> new IllegalArgumentException("카드를 찾을 수 없습니다."));
+      cardRepository.delete(card);
       log.info("[DELETE /api/cards/{}] 특정 카드 삭제 성공 - 삭제한 카드 ID: {}", id, id);
       return ResponseEntity.ok(
           DeleteCardResponse.builder().success(true).message("카드 삭제에 성공하였습니다.").cardId(id).build());

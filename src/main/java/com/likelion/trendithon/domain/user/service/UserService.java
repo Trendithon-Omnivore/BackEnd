@@ -1,5 +1,7 @@
 package com.likelion.trendithon.domain.user.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import com.likelion.trendithon.domain.user.dto.request.SignUpRequest;
 import com.likelion.trendithon.domain.user.dto.response.DuplicateCheckResponse;
 import com.likelion.trendithon.domain.user.dto.response.LoginResponse;
 import com.likelion.trendithon.domain.user.dto.response.SignUpResponse;
+import com.likelion.trendithon.domain.user.dto.response.UserStateResponse;
 import com.likelion.trendithon.domain.user.entity.User;
 import com.likelion.trendithon.domain.user.repository.UserRepository;
 import com.likelion.trendithon.global.auth.JwtUtil;
@@ -27,7 +30,7 @@ public class UserService {
   private final JwtUtil jwtUtil;
 
   @Transactional
-  public ResponseEntity<SignUpResponse> register(SignUpRequest request, String nickname) {
+  public ResponseEntity<SignUpResponse> register(SignUpRequest request) {
     try {
       // 중복 회원 검사
       if (userRepository.findByLoginId(request.getLoginId()).isPresent()) {
@@ -43,7 +46,8 @@ public class UserService {
           User.builder()
               .loginId(request.getLoginId())
               .password(encodedPassword)
-              .nickname(nickname)
+              .nickname(request.getNickname())
+              .state(null)
               .userRole("USER")
               .build();
       userRepository.save(user);
@@ -53,7 +57,11 @@ public class UserService {
           user.getLoginId(),
           user.getNickname());
       return ResponseEntity.ok(
-          SignUpResponse.builder().success(true).message("회원가입이 완료되었습니다.").build());
+          SignUpResponse.builder()
+              .success(true)
+              .nickname(request.getNickname())
+              .message("회원가입이 완료되었습니다.")
+              .build());
     } catch (Exception e) {
       log.error("[POST /api/users/register] 회원가입 실패 - ID: {}", request.getLoginId());
       return ResponseEntity.ok(
@@ -126,5 +134,35 @@ public class UserService {
             .build();
 
     return ResponseEntity.ok(response);
+  }
+
+  // 사용자 상태 조회
+  @Transactional
+  public ResponseEntity<UserStateResponse> getUserState(HttpServletRequest httpServletRequest) {
+
+    try {
+      String loginId =
+          jwtUtil.extractLoginId(httpServletRequest.getHeader("Authorization").substring(7));
+      User user =
+          userRepository
+              .findByLoginId(loginId)
+              .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+      log.info("[GET /api/users/state] 사용자 상태 조회 성공 - 조회한 사용자 ID: {}", user.getLoginId());
+      return ResponseEntity.ok(
+          UserStateResponse.builder()
+              .success(true)
+              .message("사용자 상태 조회에 성공하였습니다.")
+              .state(user.getState())
+              .build());
+    } catch (IllegalArgumentException e) {
+      log.error("[GET /api/users/state] 사용자 상태 조회 실패");
+      return ResponseEntity.ok(
+          UserStateResponse.builder().success(false).message(e.getMessage()).build());
+    } catch (Exception e) {
+      log.error("[GET /api/users/state] 사용자 상태 조회 실패 - 에러: {}", e.getMessage());
+      return ResponseEntity.ok(
+          UserStateResponse.builder().success(false).message("카드 조회 중 오류가 발생하였습니다.").build());
+    }
   }
 }

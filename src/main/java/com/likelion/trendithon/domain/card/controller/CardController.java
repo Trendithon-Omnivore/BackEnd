@@ -53,7 +53,7 @@ public class CardController {
     return cardService.getAllCards();
   }
 
-  @Operation(summary = "[ 토큰 O | 카드 삭제 ]", description = "ID를 통해 특정 카드 삭제")
+  @Operation(summary = "[ 토큰 X | 카드 삭제 | 테스트용 ]", description = "ID를 통해 특정 카드 삭제")
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteCard(@PathVariable Long id) {
     return cardService.deleteCard(id);

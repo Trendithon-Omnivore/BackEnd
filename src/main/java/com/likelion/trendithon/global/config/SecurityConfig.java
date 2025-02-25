@@ -65,6 +65,7 @@ public class SecurityConfig {
     // 모든 출처 허용
     configuration.addAllowedOrigin("http://localhost:5173"); // 개발 서버
     configuration.addAllowedOrigin("https://localhost:5173"); // 배포 서버
+    configuration.addAllowedOrigin("https://front-end-navy-two.vercel.app"); // 배포 서버
     // 모든 HTTP 메서드 허용
     configuration.addAllowedMethod("*");
     // 모든 헤더 허용
